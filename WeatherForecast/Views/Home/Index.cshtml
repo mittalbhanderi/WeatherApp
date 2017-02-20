@@ -29,7 +29,7 @@
         </form>
 
         <div ng-if="weatherData.errorMessage === ''">
-            <h1>Forecast For: {{::weatherData.cityName }}</h1>
+            <h1>Forecast For: {{weatherData.cityName }}</h1>
             <div class="row">
                 <span class="day" ng-repeat="day in weatherDays">
                     <a href="#" class="btn btn-primary btn-md" ng-click="setFilter($event, day)">{{::day}}</a>
