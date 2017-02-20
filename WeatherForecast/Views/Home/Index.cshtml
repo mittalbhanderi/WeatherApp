@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html ng-app="WeatherApp" ng-controller="WeatherController">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Weather Forecast Sample Application</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    @Styles.Render("~/Content/css")
+    <meta name="description" content="Weather Forecast App" />
+</head>
+<body>
+    <div class="mainContent">
+        <h1>Please specify the city below to get the weather forecast.</h1>
+        <form name="weatherForm" ng-submit="getWeatherData()" novalidate>
+            <table class="table">
+                <tr>
+                    <td>
+                        <label for="cityName">City</label>
+                    </td>
+                    <td>
+                        <input type="text" ng-model="weatherForm.cityName" id="cityName" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" ng-disabled="!(weatherForm.$valid)">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <div ng-if="weatherData.errorMessage === ''">
+            <h1>Forecast For: {{::weatherData.cityName }}</h1>
+            <div class="row">
+                <span class="day" ng-repeat="day in weatherDays">
+                    <a href="#" class="btn btn-primary btn-md" ng-click="setFilter($event, day)">{{::day}}</a>
+                </span>
+            </div>
+            <div class="row">
+                <div class="col-md-2 wdata" ng-repeat="forecast in weatherData.forecastList | filter: filterByDay">
+                    <div class="date">
+                        {{::forecast.day }}<br />
+                        {{::forecast.time }}
+                    </div>
+                    <div class="forecast">
+                        <img ng-src="{{forecast.iconUrl}}" />
+                        {{::forecast.weatherMain }} - {{::forecast.weatherDescription }}
+                    </div>
+                    <div class="temperature">
+                        <strong>Temperature</strong>&nbsp;&nbsp;{{::forecast.mainTemp }}&deg; <br />
+                        H: {{::forecast.tempMax }}&deg; | L: {{::forecast.tempMin }}&deg;
+                    </div>
+                    <div class="pressure">
+                        <strong>Pressure</strong>&nbsp;&nbsp;
+                        {{::forecast.pressure }}mb
+                    </div>
+                    <div class="humidity">
+                        <strong>Humidity</strong>&nbsp;&nbsp;
+                        {{::forecast.humidity }}%
+                    </div>
+                    <div class="wind">
+                        <strong>Wind</strong>&nbsp;&nbsp;
+                        {{::forecast.windSpeed }} mph
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*{ { weatherData}}*@
+        <div id="errorDiv" class="alert alert-danger" ng-if="displayErrorDiv()">
+            {{weatherData.errorMessage}}
+        </div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+
+        @Scripts.Render("~/bundles/WeatherApp")
+    </div>
+</body>
+</html>
