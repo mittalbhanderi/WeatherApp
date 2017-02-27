@@ -19,6 +19,7 @@ namespace WeatherForecast.Controllers
         {
             _weatherService = weatherService;
         }
+
         #region "Action Methods"
 
         public ActionResult Index()
