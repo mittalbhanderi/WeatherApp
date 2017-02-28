@@ -1,0 +1,23 @@
+﻿{
+  "Framework": "jasmine",
+  "RootReferencePathMode": "SettingsFileDirectory",
+
+  "References": [
+    {
+      "Path": "Scripts/angular.min.js"
+    },
+    {
+      "Path": "Scripts/angular-mocks.js"
+    },
+    {
+      "Path": "../WeatherForecast/Scripts",
+      "Include": "*.js"
+    }
+  ],
+
+  "Tests": [
+    {
+      "Path": "Tests/weatherAppTest.js"
+    }
+  ]
+}

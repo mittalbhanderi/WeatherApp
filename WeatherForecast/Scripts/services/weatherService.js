@@ -9,26 +9,25 @@
     function WeatherService($http, $q) {
 
         var service = {
-            getWetherReport: getWeatherReport
-        }
+            getWeatherReport: getWeatherReport
+        };
 
         function getWeatherReport(city) {
-            var result = $q.defer();
 
             var params = { cityName: city };
 
-            return $http({
+            var result =  $http({
                 method: 'GET',
                 url: '/Home/GetWeatherReport',
                 params: params,
                 headers: { 'Content-Type': 'application/json' }
-            })
-                .success(function (response) {
-                    result.resolve(response);
-                })
-                .error(function (response) {
-                    result.reject(response);
+                }).then(function(response){
+                    return response; 
+                }, function(response){
+                    return response;
                 });
+
+            return result;
         }
         return service;
     }

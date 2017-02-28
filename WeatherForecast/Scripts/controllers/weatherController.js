@@ -22,21 +22,23 @@
         };
 
         $scope.getWeatherData = function () {
-            var result = WeatherService.getWetherReport($scope.weatherForm.cityName);
-            result.then(function (response) {
-                $scope.weatherData = JSON.parse(response.data);
-                if ($scope.weatherData.forecastList !== null) {
-                    $scope.weatherData.forecastList.forEach(function (forecast) {
-                        if ($scope.weatherDays.indexOf(forecast.day) < 0) {
-                            if ($scope.weatherDays.length < 5)
-                                $scope.weatherDays.push(forecast.day);
-                        }
-                    });
-                    $scope.myFilter = $scope.weekDays[todaysDate.getDay()];
-                }
-            }, function (response) {
-                console.log(response.message);
-            });
+            if ($scope.weatherForm.cityName !== '') {
+                var result = WeatherService.getWeatherReport($scope.weatherForm.cityName);
+                result.then(function (response) {
+                    $scope.weatherData = JSON.parse(response.data);
+                    if ($scope.weatherData.forecastList !== null) {
+                        $scope.weatherData.forecastList.forEach(function (forecast) {
+                            if ($scope.weatherDays.indexOf(forecast.day) < 0) {
+                                if ($scope.weatherDays.length < 5)
+                                    $scope.weatherDays.push(forecast.day);
+                            }
+                        });
+                        $scope.myFilter = $scope.weekDays[todaysDate.getDay()];
+                    }
+                }, function (response) {
+                    console.log(response.message);
+                });
+            }
         };
 
         $scope.setFilter = function (event, day) {
@@ -49,7 +51,7 @@
         };
 
         $scope.displayErrorDiv = function () {
-            return $scope.weatherData !== null && $scope.weatherData.errorMessage !== null && $scope.weatherData.errorMessage.length > 0;
+            return $scope.weatherData !== null && $scope.weatherData.errorMessage !== null && $scope.weatherData.errorMessage;
         };
     }
 
