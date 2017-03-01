@@ -50,7 +50,7 @@ namespace WeatherForecast.Tests.Controllers
 
             weatherData = JsonConvert.DeserializeObject<WeatherDataDTO>(result.Data.ToString());
 
-            Assert.AreEqual(weatherData.ErrorMessage, "Please specify a valid city name to get the weather forecast.");
+            Assert.AreEqual(weatherData.ErrorMessage, "Please specify a valid city name to get the weather forecast. Or the service is currently unavailable.");
         }
 
         [TestMethod()]
@@ -65,7 +65,7 @@ namespace WeatherForecast.Tests.Controllers
 
             weatherData = JsonConvert.DeserializeObject<WeatherDataDTO>(result.Data.ToString());
 
-            Assert.AreEqual(weatherData.ErrorMessage, "Please specify a valid city name to get the weather forecast.");
+            Assert.AreEqual(weatherData.ErrorMessage, "Please specify a valid city name to get the weather forecast. Or the service is currently unavailable.");
         }
 
         [TestMethod()]
@@ -94,13 +94,13 @@ namespace WeatherForecast.Tests.Controllers
             var controller = new HomeController(service);
             WeatherDataDTO weatherData = new WeatherDataDTO();
 
-            var result = await controller.GetWeatherReport("London") as JsonResult;
+            var result = await controller.GetWeatherReport("Basingstoke") as JsonResult;
 
             weatherData = JsonConvert.DeserializeObject<WeatherDataDTO>(result.Data.ToString());
 
             Assert.AreEqual(weatherData.ErrorMessage, "");
             Assert.IsTrue(weatherData.ForecastList.Count > 0);
-            Assert.IsTrue(weatherData.CityName.Equals("London"));
+            Assert.IsTrue(weatherData.CityName.Equals("Basingstoke"));
         }
 
         [TestMethod]

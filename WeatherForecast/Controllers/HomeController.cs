@@ -48,7 +48,7 @@ namespace WeatherForecast.Controllers
                         // map json data to our model class
                         // this will be returned as json object to front end
                         weatherData = JsonConvert.DeserializeObject<WeatherDataModel>(result);
-                        weatherData.ErrorMessage = "Please specify a valid city name to get the weather forecast.";
+                        weatherData.ErrorMessage = "Please specify a valid city name to get the weather forecast. Or the service is currently unavailable.";
                         // check if the correct city weather is returned
                         if (weatherData.City != null)
                         {

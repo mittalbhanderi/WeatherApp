@@ -34,6 +34,8 @@
                             }
                         });
                         $scope.myFilter = $scope.weekDays[todaysDate.getDay()];
+                    } else {
+                        $scope.weatherData.errorMessage = "This service is currently unavailable. Please try again later!";
                     }
                 }, function (response) {
                     console.log(response.message);
