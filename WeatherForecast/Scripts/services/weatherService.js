@@ -4,9 +4,9 @@
         .module('WeatherApp')
         .factory('WeatherService', WeatherService);
 
-    WeatherService.$inject = ['$http', '$q'];
+    WeatherService.$inject = ['$http'];
 
-    function WeatherService($http, $q) {
+    function WeatherService($http) {
 
         var service = {
             getWeatherReport: getWeatherReport

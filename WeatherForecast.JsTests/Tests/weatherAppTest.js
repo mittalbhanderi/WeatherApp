@@ -1,7 +1,6 @@
 ﻿describe('Weather Controller', function () {
     var ctrl,
         mockWeatherService,
-        scope,
         rootScope,
         httpBackend;
 
@@ -17,11 +16,8 @@
         });
     });
 
-    beforeEach(inject(function ($rootScope, $controller) {
-        scope = $rootScope.$new();
-
+    beforeEach(inject(function ($controller) {
         ctrl = $controller('WeatherController', {
-            $scope: scope,
             WeatherService: mockWeatherService
         });
     }));
@@ -30,19 +26,19 @@
         expect(ctrl).toBeDefined();
     });
 
-    describe('$scope.getWeatherData', function () {
+    describe('WeatherController.getWeatherData', function () {
         it('gets the weather data when a valid city is provided in the input', function () {
-            expect(scope.weekDays.length).toBe(7);
-            expect(scope.weatherData).toBeDefined();
-            expect(scope.weatherDays).toBeDefined();
-            expect(scope.weatherForm).toBeDefined();
-            scope.getWeatherData();
+            expect(ctrl.weekDays.length).toBe(7);
+            expect(ctrl.weatherData).toBeDefined();
+            expect(ctrl.weatherDays).toBeDefined();
+            expect(ctrl.weatherForm).toBeDefined();
+            ctrl.getWeatherData();
             expect(mockWeatherService.getWeatherReport).not.toHaveBeenCalled();
-            expect(scope.weatherData).toEqual([]);
-            expect(scope.weatherDays).toEqual([]);
+            expect(ctrl.weatherData).toEqual([]);
+            expect(ctrl.weatherDays).toEqual([]);
 
-            scope.weatherForm.cityName = 'London';
-            scope.getWeatherData();
+            ctrl.weatherForm.cityName = 'London';
+            ctrl.getWeatherData();
             expect(mockWeatherService.getWeatherReport).toHaveBeenCalled();
         });
     });
@@ -56,7 +52,7 @@ describe('Weather Service', function () {
     var getWeatherReportHandler;
 
     beforeEach(module('WeatherApp'));
-    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _WeatherService_, $q) {
+    beforeEach(inject(function (_$httpBackend_, _$rootScope_, _WeatherService_) {
         $httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         WeatherService = _WeatherService_;

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="WeatherApp" ng-controller="WeatherController">
+<html ng-app="WeatherApp" ng-controller="WeatherController as ctrl">
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Weather Forecast Sample Application</title>
@@ -10,33 +10,33 @@
 <body>
     <div class="mainContent">
         <h1>Please specify the city below to get the weather forecast.</h1>
-        <form name="weatherForm" ng-submit="getWeatherData()" novalidate>
+        <form name="weatherForm" ng-submit="ctrl.getWeatherData()" novalidate>
             <table class="table">
                 <tr>
                     <td>
                         <label for="cityName">City</label>
                     </td>
                     <td>
-                        <input type="text" ng-model="weatherForm.cityName" id="cityName" required />
+                        <input type="text" ng-model="ctrl.weatherForm.cityName" id="cityName" required />
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="submit" ng-disabled="!(weatherForm.$valid)">Submit</button>
+                        <button type="submit" ng-disabled="!(ctrl.weatherForm.cityName)">Submit</button>
                     </td>
                 </tr>
             </table>
         </form>
 
-        <div ng-if="weatherData.errorMessage === ''">
-            <h1>Forecast For: {{weatherData.cityName }}</h1>
+        <div ng-if="ctrl.weatherData.errorMessage === ''">
+            <h1>Forecast For: {{ctrl.weatherData.cityName }}</h1>
             <div class="row">
-                <span class="day" ng-repeat="day in weatherDays">
-                    <a href="#" class="btn btn-primary btn-md" ng-click="setFilter($event, day)">{{::day}}</a>
+                <span class="day" ng-repeat="day in ctrl.weatherDays">
+                    <a href="#" class="btn btn-primary btn-md" ng-click="ctrl.setFilter($event, day)">{{::day}}</a>
                 </span>
             </div>
             <div class="row">
-                <div class="col-md-2 wdata" ng-repeat="forecast in weatherData.forecastList | filter: filterByDay">
+                <div class="col-md-2 wdata" ng-repeat="forecast in ctrl.weatherData.forecastList | filter: ctrl.filterByDay">
                     <div class="date">
                         {{::forecast.day }}<br />
                         {{::forecast.time }}
@@ -64,9 +64,9 @@
                 </div>
             </div>
         </div>
-        @*{ { weatherData}}*@
-        <div id="errorDiv" class="alert alert-danger" ng-if="displayErrorDiv()">
-            {{weatherData.errorMessage}}
+        @*{ { ctrl.weatherData}}*@
+        <div id="errorDiv" class="alert alert-danger" ng-if="ctrl.displayErrorDiv()">
+            {{ctrl.weatherData.errorMessage}}
         </div>
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 

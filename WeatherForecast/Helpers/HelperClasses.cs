@@ -7,15 +7,20 @@ namespace WeatherForecast.Helpers
     public static class HelperClasses
     {
         public static string Json(Object data) {
-            var jsonSerializerSettings = new JsonSerializerSettings {
-                NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                DateTimeZoneHandling = DateTimeZoneHandling.Local
-            };
+            string returnString = string.Empty;
+            if (data != null)
+            {
+                var jsonSerializerSettings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    DateTimeZoneHandling = DateTimeZoneHandling.Local
+                };
 
-            return JsonConvert.SerializeObject(data, Formatting.Indented, jsonSerializerSettings);
-
+                returnString = JsonConvert.SerializeObject(data, Formatting.Indented, jsonSerializerSettings);
+            }
+            return returnString;
         }
     }
 }

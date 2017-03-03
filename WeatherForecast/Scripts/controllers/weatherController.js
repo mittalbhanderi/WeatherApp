@@ -5,56 +5,58 @@
         .module('WeatherApp')
         .controller('WeatherController', WeatherController);
 
+    WeatherController.$inject = ['WeatherService'];
 
-    WeatherController.$inject = ['$scope', 'WeatherService'];
+    function WeatherController(WeatherService) {
+        var vm = this;
+        vm.ctrlName = 'WeatherController';
 
-    function WeatherController($scope, WeatherService) {
-
-        $scope.weatherData = [];
-        $scope.weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        $scope.weatherDays = [];
-        $scope.myFilter;
+        vm.weatherData = [];
+        vm.weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        vm.weatherDays = [];
+        vm.myFilter;
 
         var todaysDate = new Date();
 
-        $scope.weatherForm = {
+        vm.weatherForm = {
             cityName: ''
         };
-
-        $scope.getWeatherData = function () {
-            if ($scope.weatherForm.cityName !== '') {
-                var result = WeatherService.getWeatherReport($scope.weatherForm.cityName);
+        
+        vm.getWeatherData = function () {
+            if (vm.weatherForm.cityName !== '') {
+                var result = WeatherService.getWeatherReport(vm.weatherForm.cityName);
                 result.then(function (response) {
-                    $scope.weatherData = JSON.parse(response.data);
-                    if ($scope.weatherData.forecastList !== null) {
-                        $scope.weatherData.forecastList.forEach(function (forecast) {
-                            if ($scope.weatherDays.indexOf(forecast.day) < 0) {
-                                if ($scope.weatherDays.length < 5)
-                                    $scope.weatherDays.push(forecast.day);
+                    vm.weatherData = JSON.parse(response.data);
+                    if (vm.weatherData.forecastList !== null) {
+                        vm.weatherData.forecastList.forEach(function (forecast) {
+                            if (vm.weatherDays.indexOf(forecast.day) < 0) {
+                                if (vm.weatherDays.length < 5)
+                                    vm.weatherDays.push(forecast.day);
                             }
                         });
-                        $scope.myFilter = $scope.weekDays[todaysDate.getDay()];
+                        vm.myFilter = vm.weekDays[todaysDate.getDay()];
                     } else {
-                        $scope.weatherData.errorMessage = "This service is currently unavailable. Please try again later!";
+                        vm.weatherData.errorMessage = "This service is currently unavailable. Please try again later!";
                     }
                 }, function (response) {
                     console.log(response.message);
                 });
             }
-        };
+        };;
 
-        $scope.setFilter = function (event, day) {
+        vm.setFilter = function (event, day) {
             event.preventDefault();
-            $scope.myFilter = day;
+            vm.myFilter = day;
         };
 
-        $scope.filterByDay = function (forecast) {
-            return forecast.day === $scope.myFilter;
+        vm.filterByDay = function (forecast) {
+            return forecast.day === vm.myFilter;
         };
 
-        $scope.displayErrorDiv = function () {
-            return $scope.weatherData !== null && $scope.weatherData.errorMessage !== null && $scope.weatherData.errorMessage;
+        vm.displayErrorDiv = function () {
+            return vm.weatherData !== null && vm.weatherData.errorMessage !== null && vm.weatherData.errorMessage;
         };
+
     }
 
 })();
